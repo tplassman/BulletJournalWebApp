@@ -5,24 +5,39 @@ var bulletJournalControllers = angular.module('bulletJournalControllers', [
   'firebase'
 ]);
  
-bulletJournalControllers.controller('journalIndexController', ['$scope', 'Journal', '$firebase', 
-  function ($scope, Journal, $firebase) {
-      var journalRef = new Firebase('https://glaring-fire-6940.firebaseio.com/');
-      $scope.journals = $firebase(journalRef);
-      //$scope.journals = Journal.query();
-    
+bulletJournalControllers.controller('journalIndexController', ['$scope', '$firebase', 
+  function ($scope, $firebase) {
+      // Get journal list from Firbase
+      var journalListRef = new Firebase('https://glaring-fire-6940.firebaseio.com/journals');
+      $scope.journals = $firebase(journalListRef);
+      
+      // Add new journal to Firebase journal list
       $scope.addJournal = function() {
-        $scope.journals.push({age:$scope.journals.length , id:$scope.newJournal, created:'today'});
-        Journal.save({journalId:$scope.newJournal}, $scope.journals);
-        $scope.newJournal = '';
+          $scope.journals.$add({id:$scope.newJournal, created:Date()});
+          $scope.newJournal = '';
+      };
+      
+      // Remove journal from Firebase
+      $scope.removeJournal = function(journal) {
+          $scope.journals.$remove(journal);
       };
 }]);
  
-bulletJournalControllers.controller('journalController', ['$scope', '$routeParams', 'Journal', '$firebase',
-  function ($scope, $routeParams, Journal, $firebase) {
-      var journalRef = new Firebase('https://glaring-fire-6940.firebaseio.com/');
-      $scope.journal = $firebase(journalRef);
+bulletJournalControllers.controller('journalController', ['$scope', '$routeParams', '$firebase',
+  function ($scope, $routeParams, $firebase) {
+      // Get journal items from Firbase
       $scope.journalId = $routeParams.journalId;
-      //$scope.journal = Journal.get({journalId: $routeParams.journalId}, function(journal) {
-      //});
+      var journalRef = new Firebase('https://glaring-fire-6940.firebaseio.com/'+$scope.journalId+'/items');
+      $scope.items = $firebase(journalRef);
+      
+      // Add new item to Firebase
+      $scope.addItem = function() {
+          $scope.items.$add({attribute:null, complete:false, created:Date(), text:"test", type:$scope.newItem});
+          $scope.newItem = '';
+      };
+      
+      // Remove item from Firebase
+      $scope.removeItem = function(item) {
+          $scope.items.$remove(item);
+      };
 }]);
