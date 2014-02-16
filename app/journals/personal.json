@@ -1,0 +1,32 @@
+{
+    "id": "personal",
+    "items": [
+        {
+            "task": {
+                "created": "2012-04-21T18:25:43-05:00",
+                "text": "This is a personal task",
+                "attribute": "important",
+                "complete": true
+            },
+
+            "task": {
+                "created": "2014-02-06T18:25:43-05:00",
+                "text": "This is a personal task",
+                "attribute": null,
+                "complete": false
+            },
+
+            "event": {
+                "created": "2012-07-21T18:25:43-05:00",
+                "text": "This is a personal event",
+                "attribute": "explore"
+            },
+
+            "note": {
+                "created": "2012-04-09T18:25:43-05:00",
+                "text": "This is a personal note",
+                "attribute": "idea"
+            }
+        }
+    ]
+}

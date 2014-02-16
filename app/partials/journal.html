@@ -1,0 +1,9 @@
+<a href="#/journals">back</a>
+<p>{{journalId}} Journal </p>
+<input type="text" ng-model="newItem">
+<button ng-click="addItem()">Add Item</button>
+<ul>
+    <li ng-repeat="item in journal[journalId].items">
+        {{item.created | date}} - {{item.type | uppercase}}: {{item.text}}
+    </li>
+</ul>

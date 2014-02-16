@@ -1,0 +1,81 @@
+{
+    "journals":
+           [
+                {
+                    "age": 0, 
+                    "id": "work", 
+                    "name": "Work Journal" 
+                }, 
+                {
+                    "age": 1, 
+                    "id": "personal", 
+                    "name": "Personal Journal"
+                }
+           ],
+           "work":
+                   {
+    "id": "work",
+    "items": [
+        {
+            "type":"task",
+                "created": "2012-04-21T18:25:43-05:00",
+                "text": "This is a task",
+                "attribute": "important",
+                "complete": true
+            
+         },
+           {
+            "type":"task",
+                "created": "2014-02-06T18:25:43-05:00",
+                "text": "This is a task",
+                "attribute": null,
+                "complete": false
+           },
+            {
+            "type":"event",
+                "created": "2012-07-21T18:25:43-05:00",
+                "text": "This is an event",
+                "attribute": "explore"
+            },
+               {
+            "type":"note",
+                "created": "2012-04-09T18:25:43-05:00",
+                "text": "This is a note",
+                "attribute": "idea"
+               }
+    ]
+},
+"personal":
+        {
+    "id": "personal",
+    "items": [
+        {
+            "type":"task",
+                "created": "2012-04-21T18:25:43-05:00",
+                "text": "This is a personal task",
+                "attribute": "important",
+                "complete": true
+        },
+{
+            "type":"task",
+                "created": "2014-02-06T18:25:43-05:00",
+                "text": "This is a personal task",
+                "attribute": null,
+                "complete": false
+},
+{
+            "type":"event",
+                "created": "2012-07-21T18:25:43-05:00",
+                "text": "This is a personal event",
+                "attribute": "explore"
+},
+{
+            "type":"note",
+                "created": "2012-04-09T18:25:43-05:00",
+                "text": "This is a personal note",
+                "attribute": "idea"
+}
+        
+    ]
+}
+}
