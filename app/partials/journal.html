@@ -1,12 +1,23 @@
-<a href="#/journals">back</a>
-<p>{{journalId}} Journal </p>
-<form ng-submit="addItem()">
-    <input type="text" ng-model="newItem" placeholder="Add new item!">
+<a href="#/journals">&lt;back</a>
+    <span>
+        {{user.id}}-<small>{{user.email}}</small>
+    </span>
+<br/>
+<!--<h3 style="display:inline">{{journalId | uppercase}}</h3>-->
+<form id="newItem" ng-submit="addItem()">
+    Task<input type="radio" name="type" value="task">
+    Event<input type="radio" name="type" value="event">
+    Note<input type="radio" name="type" value="note" checked><br>
+    Important<input type="checkbox" name="attribute" value="important">
+    Explore<input type="checkbox" name="attribute" value="explore">
+    Idea<input type="checkbox" name="attribute" value="idea"><br>
+    <textarea ng-model="newItem" cols="50" rows="5" autofocus placeholder="Add new item!"></textarea><br>
     <input class="btn-primary" type="submit" value="add">
 </form>
 <ul>
     <li ng-repeat="item in items | orderByPriority">
+        <small>{{item.created | date}}</small><br>
         <button ng-click="removeItem(item.$id)">remove</button>
-        {{item.created | date}} - {{item.type | uppercase}}: {{item.text}}
+        {{item.attributes}} | {{item.type | uppercase}}: {{item.text}}
     </li>
 </ul>

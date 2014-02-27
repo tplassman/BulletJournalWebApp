@@ -1,0 +1,23 @@
+<div>
+    <span>
+        {{user.id}}-<small>{{user.email}}</small>
+    </span>
+    <h3>Sign Up</h3>
+    <form ng-submit="createAccount()">
+        <input type="text" ng-model="newEmail" size="30"
+               placeholder="Email"><br/>
+        <input type="password" ng-model="newPassword" size="30"
+               placeholder="Password"><br/>
+        <input type="password" ng-model="passwordCheck" size="30"
+               placeholder="Verify Password"><br/>
+        <input class="btn-primary" type="submit" value="Login">
+    </form>
+    <h3>Log In</h3>
+    <form ng-submit="login()">
+        <input type="text" ng-model="email" size="30"
+               placeholder="Email"><br/>
+        <input type="password" ng-model="password" size="30"
+               placeholder="Password"><br/>
+        <input class="btn-primary" type="submit" value="Login">
+    </form>
+</div>
