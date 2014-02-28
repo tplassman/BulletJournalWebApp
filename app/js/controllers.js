@@ -6,13 +6,12 @@ var bulletJournalControllers = angular.module('bulletJournalControllers', [
   'ngStorage'
 ]);
 
-bulletJournalControllers.controller('mainController', ['$localStorage', '$scope', '$stateParams', '$firebase', 'Authentication',
-  function ($localStorage, $scope, $stateParams, $firebase, Authentication) {      
+bulletJournalControllers.controller('mainController', ['$localStorage', '$scope', '$state', '$stateParams', '$firebase', 'Authentication',
+  function ($localStorage, $scope, $state, $stateParams, $firebase, Authentication) {      
       $scope.logout = function() {
-          console.log('loggin out');
-          delete $localStorage.auth;
-          console.log('$localStorage', $localStorage);
+          $localStorage.$reset();
           Authentication.logout();
+          $state.go("main.login");
       };
 }]);
 
@@ -35,17 +34,13 @@ bulletJournalControllers.controller('loginController', ['$localStorage', '$scope
           }
           else {
              Authentication.login($scope.email, $scope.password, function(err, user) {
-                 console.log('in login');
                 $scope.err = err? err + '' : null;
                 if( !err ) {
-                    console.log('adding user to local storage');
-                    console.log('$localStorage auth', $localStorage.auth);
-                    console.log('$localStorage user', $localStorage.auth.user);
                      cb && cb(user);
                 }
                 $scope.email = null;
                 $scope.password = null;
-                $state.go("journals");
+                $state.go("main.journals");
              });
           }
       };
@@ -61,7 +56,7 @@ bulletJournalControllers.controller('loginController', ['$localStorage', '$scope
                   $scope.newEmail = null;
                   $scope.newPassword = null;
                   $scope.passwordCheck = null;
-                  $state.go("journals");
+                  $state.go("main.journals");
                }
             });
          }

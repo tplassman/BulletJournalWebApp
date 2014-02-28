@@ -10,23 +10,23 @@ var bulletJournalApp = angular.module('bulletJournalApp', [
 ]);
 
 bulletJournalApp.run(['$rootScope', '$localStorage', '$state', 'Authentication',
-    function ($rootScope, $localStorage, $state, Authentication) { 
-        console.log('local storage auth', $localStorage.auth);
+    function ($rootScope, $localStorage, $state, Authentication) {
         if($localStorage.auth === undefined) {
             $localStorage.auth =  Authentication.init();
-            console.log('local storage auth', $localStorage.auth);
         }
         
         $rootScope.$on("$stateChangeStart", function(event, curr, prev) {
-            console.log('checking local storage for user');
-            console.log('user', $localStorage.auth.user);
-          if (curr.authenticate && $localStorage.auth.user === null) {
-            // User isn’t authenticated
-            console.log('Prepare for login!');
-            $state.go("main.login");
-            event.preventDefault(); 
-          }
-        });
+            if ($localStorage.auth === undefined) {
+                // User isn’t authenticated
+                $state.go("main.login");
+                event.preventDefault(); 
+            }
+            else if (curr.authenticate && $localStorage.auth.user === null) {
+                    // User isn’t authenticated
+                    $state.go("main.login");
+                    event.preventDefault(); 
+            }
+    });
 }]);
 
 bulletJournalApp.config(['$stateProvider', '$urlRouterProvider', 
