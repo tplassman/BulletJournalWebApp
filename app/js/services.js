@@ -2,21 +2,19 @@
 
 var bulletJournalServices = angular.module('bulletJournalServices', []);
 
-bulletJournalServices.service('Authentication', ['$rootScope', '$firebaseSimpleLogin',
-  function($rootScope, $firebaseSimpleLogin) {
-      console.log('auth gets null');
+bulletJournalServices.service('Authentication', ['$firebaseSimpleLogin',
+  function($firebaseSimpleLogin) {
       var auth = null;
       
       this.init = function() {
           console.log('init called');
           var dataRef = new Firebase("https://glaring-fire-6940.firebaseio.com/");
           auth = $firebaseSimpleLogin(dataRef);
-          $rootScope.user = null;
           return auth;
       };
             
       this.login = function(email, pass, callback) {
-             console.log('loggin in');
+             console.log('loggin in. auth:', auth);
              assertAuth();
              console.log('auth asserted');
              auth.$login('password', {

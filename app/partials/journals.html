@@ -12,8 +12,9 @@
     <ul>
         <li ng-repeat="journal in journals | orderByPriority | filter:query">
             <button ng-click="removeJournal(journal.$id)">remove</button>
-            <a ui-sref="journal({journalId: journal.$id})">{{journal.name | uppercase}}</a>
-            <small>{{journal.created | date}}</small>
+            <a ui-sref=".journal({journalId: journal.$id})">{{journal.name | uppercase}}</a>
+            <small>{{journal.created | date}}</small><small>{{journal.$id}}</small>
         </li>
     </ul>
+    <div ui-view></div>
 </div>

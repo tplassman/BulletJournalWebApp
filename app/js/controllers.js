@@ -2,16 +2,28 @@
 
 var bulletJournalControllers = angular.module('bulletJournalControllers', [
   'bulletJournalServices',
-  'firebase'
+  'firebase',
+  'ngStorage'
 ]);
 
-bulletJournalControllers.controller('loginController', ['$rootScope', '$scope', '$state', 'Authentication',
-  function ($rootScope, $scope, $state, Authentication) {
+bulletJournalControllers.controller('mainController', ['$localStorage', '$scope', '$stateParams', '$firebase', 'Authentication',
+  function ($localStorage, $scope, $stateParams, $firebase, Authentication) {      
+      $scope.logout = function() {
+          console.log('loggin out');
+          delete $localStorage.auth;
+          console.log('$localStorage', $localStorage);
+          Authentication.logout();
+      };
+}]);
+
+bulletJournalControllers.controller('loginController', ['$localStorage', '$scope', '$state', 'Authentication',
+  function ($localStorage, $scope, $state, Authentication) {
       $scope.email = null;
       $scope.password = null;
       $scope.newEmail = null;
       $scope.newPassword = null;
       $scope.passwordCheck = null;
+      $scope.user = null;
 
       $scope.login = function(cb) {
           $scope.err = null;
@@ -26,8 +38,10 @@ bulletJournalControllers.controller('loginController', ['$rootScope', '$scope', 
                  console.log('in login');
                 $scope.err = err? err + '' : null;
                 if( !err ) {
-                    $rootScope.user = user;
-                   cb && cb(user);
+                    console.log('adding user to local storage');
+                    console.log('$localStorage auth', $localStorage.auth);
+                    console.log('$localStorage user', $localStorage.auth.user);
+                     cb && cb(user);
                 }
                 $scope.email = null;
                 $scope.password = null;
@@ -65,46 +79,12 @@ bulletJournalControllers.controller('loginController', ['$rootScope', '$scope', 
          }
          return !$scope.err;
       }
-      
-      /*
-      // Create new user
-      $scope.signUp = function(newEmail, newPassword, passwordCheck) {
-          if (newPassword === passwordCheck) {
-              $rootScope.loginObj.$createUser(newEmail, newPassword)
-                      .then(function(user) {
-                          Authentication.setUser(user);
-                          $location.path("/journals");
-                      }, function(error) {
-                          alert('New user not created: ', error);
-                      });
-          }
-          else {
-              alert("Passwords do not match.");
-          }
-          $scope.newEmail = '';
-          $scope.newPassword = '';
-          $scope.passwordCheck = '';
-      };
-
-      // Login method
-      $scope.logIn = function(email, password) {
-          $rootScope.loginObj.$login('password', {
-                email: email,
-                password: password
-             }).then(function(user) {
-                Authentication.setUser(user);
-                $location.path("/journals");
-             }, function(error) {
-                console.error('Login failed: ', error);
-             });
-          $scope.email = '';
-          $scope.password = '';
-      };
-      */
 }]);
  
-bulletJournalControllers.controller('journalsController', ['$rootScope', '$scope', '$state', '$firebase', 'Authentication',
-  function ($rootScope, $scope, $state, $firebase, Authentication) {    
+bulletJournalControllers.controller('journalsController', ['$localStorage', '$scope', '$state', '$firebase', 'Authentication',
+  function ($localStorage, $scope, $state, $firebase, Authentication) {    
+      $scope.user = $localStorage.auth.user;
+      
       // Get journal list from Firbase
       var journalListRef = new Firebase('https://glaring-fire-6940.firebaseio.com/journals');
       $scope.journals = $firebase(journalListRef);
@@ -121,8 +101,9 @@ bulletJournalControllers.controller('journalsController', ['$rootScope', '$scope
       };
 }]);
  
-bulletJournalControllers.controller('journalController', ['$rootScope', '$scope', '$stateParams', '$firebase', 'Authentication',
-  function ($rootScope, $scope, $stateParams, $firebase, Authentication) {      
+bulletJournalControllers.controller('journalController', ['$localStorage', '$scope', '$stateParams', '$firebase', 'Authentication',
+  function ($localStorage, $scope, $stateParams, $firebase, Authentication) {      
+      $scope.user = $localStorage.auth.user;
       $scope.journalId = $stateParams.journalId;
       
       var journalRef = new Firebase('https://glaring-fire-6940.firebaseio.com/journals/'+$scope.journalId+'/items');
