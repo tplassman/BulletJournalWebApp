@@ -1,0 +1,92 @@
+{
+	"users": [
+		{
+			"username": "tplassman",
+			"password": "password",
+			"email": "trevor.plassman@gmail.com",
+			"journals": [
+				{
+					"name": "work",
+					"created": "06/11/2011",
+					"items": [
+						{
+							"type": "task",
+							"created": "02/20/2014",
+							"header": "February",
+							"text": "this is a task",
+							"attributes": [
+									"important",
+									"explore",
+									"idea"
+                                                         ]
+						}
+					]
+				},
+				{
+					"name": "personal",
+					"created": "06/11/2009",
+					"items": [
+						{
+							"type": "event",
+							"created": "02/20/2014",
+							"header": "February",
+							"text": "this is an event",
+							"attributes": 
+								[
+									"important",
+									"explore",
+									"idea"
+								]
+							
+						}
+					]
+				}
+			]
+		},
+		{
+			"username": "jessica",
+			"password": "password",
+			"email": "jessica.plassman@gmail.com",
+			"journals": [
+				{
+					"name": "office",
+					"created": "06/11/2011",
+					"items": [
+						{
+							"type": "note",
+							"created": "02/20/2014",
+							"header": "February",
+							"text": "this is a note",
+							"attributes": 
+								[
+									"important",
+									"explore",
+									"idea"
+								]
+							
+						}
+					]
+				},
+				{
+					"name": "dogs",
+					"created": "06/11/2009",
+					"items": [
+						{
+							"type": "note",
+							"created": "02/20/2014",
+							"header": "February",
+							"text": "this is a note",
+							"attributes": 
+								[
+									"important",
+									"explore",
+									"idea"
+								]
+							
+						}
+					]
+				}
+			]
+		}
+        ]
+}

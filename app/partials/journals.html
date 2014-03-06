@@ -1,20 +1,22 @@
-<div>
-    <span>
-        {{user.id}}-<small>{{user.email}}</small>
-    </span>
+<div ng-show="journalList"><!--class="col-xs-6 col-md-4"-->
     <br/>
-    <input ng-model="query" placeholder="Search Journals">     
+    <input type="text" class="form-control" ng-model="journalsQuery" autofocus placeholder="Search Journals">     
+    <br>
     <form ng-submit="addJournal()">
-        <input type="text" ng-model="newJournal" size="30"
-               placeholder="Create new journal!">
-        <input class="btn-primary" type="submit" value="add">
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="newJournal"
+                   placeholder="Create new journal!">
+            <span class="input-group-btn">
+                <input class="btn btn-default" type="submit" value="add">
+            </span>
+        </div>
     </form>
     <ul>
-        <li ng-repeat="journal in journals | orderByPriority | filter:query">
-            <button ng-click="removeJournal(journal.$id)">remove</button>
-            <a ui-sref=".journal({journalId: journal.$id})">{{journal.name | uppercase}}</a>
-            <small>{{journal.created | date}}</small><small>{{journal.$id}}</small>
+        <li ng-repeat="journal in journals | orderByPriority | reverse | filter:journalsQuery" class="row" style="background-color:#fff; margin: 5px 0 5px -40px; padding:5px; border-radius: 5px">
+            <button ng-click="removeJournal(journal.$id)">X</button>
+            <a ui-sref=".journal({journalId: journal.$id})" ng-click="journalListView()">{{journal.name | uppercase}}</a><br>
+            <small style="float:right">{{journal.created | date}}</small>
         </li>
     </ul>
-    <div ui-view></div>
 </div>
+<div ui-view></div>

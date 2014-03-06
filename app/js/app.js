@@ -1,28 +1,38 @@
 /* App Module */
 
 var bulletJournalApp = angular.module('bulletJournalApp', [
-	'ngRoute',
 	'bulletJournalControllers',
         'bulletJournalServices',
+        'bulletJournalFilters',
         'firebase',
-        'ui.router',
-        'ngStorage'
+        'ui.router'
 ]);
 
-bulletJournalApp.run(['$rootScope', '$localStorage', '$state', 'Authentication',
-    function ($rootScope, $localStorage, $state, Authentication) {
-        if($localStorage.auth === undefined) {
-            $localStorage.auth =  Authentication.init();
+bulletJournalApp.run(['$rootScope', '$state', 'Authentication',
+    function ($rootScope, $state, Authentication) {
+        Authentication.init();
+        
+        // Reload firebase if user is logged in and page is reloaded
+        if (window.localStorage.getItem('user') !== null) {
+            Authentication.login(
+                    JSON.parse(window.localStorage.getItem('user')).email,
+                    JSON.parse(window.localStorage.getItem('user')).password,
+                    function(err, user) {
+                        if( !err ) {
+                            $rootScope.userName = user.email;
+                            $rootScope.userId = user.id;
+                            $state.go("main.journals");
+                        }
+                        else {
+                            console.log("error", err);
+                            $state.go("main.login");
+                        }
+                    }
+            );
         }
         
         $rootScope.$on("$stateChangeStart", function(event, curr, prev) {
-            if ($localStorage.auth === undefined) {
-                // User isn’t authenticated
-                $state.go("main.login");
-                event.preventDefault(); 
-            }
-            else if (curr.authenticate && $localStorage.auth.user === null) {
-                    // User isn’t authenticated
+            if (curr.authenticate && window.localStorage.getItem('user') === null) {
                     $state.go("main.login");
                     event.preventDefault(); 
             }
@@ -52,7 +62,7 @@ bulletJournalApp.config(['$stateProvider', '$urlRouterProvider',
         authenticate: true
       })
       .state("main.journals.journal", {
-        url: "journals/:journalId",
+        url: "/:journalId",
         templateUrl: "partials/journal.html",
         controller: "journalController",
         authenticate: true
