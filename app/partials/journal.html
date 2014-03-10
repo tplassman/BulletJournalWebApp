@@ -1,29 +1,29 @@
 <div> <!--class=" col-xs-12 col-sm-6 col-md-8"--> 
     <a ui-sref="^" ng-click="journalListView()">&lt;back</a>
     <br>
-    <input type="text" class="form-control" ng-model="journalQuery" placeholder="Search Journal">
+    <input type="text" class="form-control" ng-model="journalQuery" placeholder="Search Items">
     <form id="newItem" ng-submit="addItem()">
         <div style="margin:5px 0">
         <div class="btn-group" data-toggle="buttons" style="">
-            <label class="btn btn-primary">
+            <label class="btn btn-default">
               <input type="radio" name="type" value="task" id="task"> Task
             </label>
-            <label class="btn btn-primary">
+            <label class="btn btn-default">
               <input type="radio" name="type" value="event" id="event"> Event
             </label>
-            <label class="btn btn-primary">
+            <label class="btn btn-default active">
               <input type="radio" name="type" value="note" checked id="note"> Note
             </label>
           </div>
         <div class="btn-group" data-toggle="buttons" style="float:right">
-            <label class="btn btn-primary" style="">
-              <input type="checkbox" name="attribute" value="important"> *
+            <label class="btn btn-default glyphicon glyphicon-star" style="">
+              <input type="checkbox" name="attribute" value="important">
             </label>
-            <label class="btn btn-primary" style="">
-              <input type="checkbox" name="attribute" value="explore"> @
+            <label class="btn btn-default glyphicon glyphicon-eye-open" style="">
+              <input type="checkbox" name="attribute" value="explore">
             </label>
-            <label class="btn btn-primary" style="">
-              <input type="checkbox" name="attribute" value="idea"> !
+            <label class="btn btn-default glyphicon glyphicon-exclamation-sign" style="">
+              <input type="checkbox" name="attribute" value="idea">
             </label>
         </div>
         </div>
@@ -35,11 +35,27 @@
         </div>
     </form>
     <ul>
-        <li ng-repeat="item in items | orderByPriority | filter:journalQuery" class="row" style="background-color:#fff; margin: 5px 0 5px -40px; padding:5px; border-radius: 5px">
-            <button ng-click="removeItem(item.$id)">X</button>
+        <li ng-repeat="item in items | orderByPriority | orderBy:'-created' | filter:journalQuery" class="row card {{item.type}}">
             <input ng-show="(item.type === 'task')" ng-click="taskStatusUpdate(item.$id)" type="checkbox" name="taskStatus" value="taskStatus">
-            {{item.attributes}} | {{item.type | uppercase}}: {{item.text}}<br>
-            <small style="float:right">{{item.created | date}}</small>
+            <span id="startEdit{{item.$id}}" class="lead">{{item.attributes}} {{item.text}}</span>
+            <form id="editing{{item.$id}}" style="display:none">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="newItemText"
+                           placeholder="{{item.text}}" autofocus>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="updateItem(newItemText, item.$id)">Add</button>
+                    </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="cancelItemEdit(item.$id)">Cancel</button>
+                    </span>
+                </div>
+            </form>
+            <br>
+            <div>
+                <button class="btn btn-default editButton" ng-click="removeItem(item.$id)">Delete</button>
+                <button class="btn btn-default editButton" ng-click="editItemText(item.$id)">Edit</button>
+                <small style="float:right" class="edit">{{item.created | date}}</small>
+            </div>
         </li>
     </ul>
 </div>

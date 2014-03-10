@@ -3,7 +3,6 @@
 var bulletJournalApp = angular.module('bulletJournalApp', [
 	'bulletJournalControllers',
         'bulletJournalServices',
-        'bulletJournalFilters',
         'firebase',
         'ui.router'
 ]);

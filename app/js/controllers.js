@@ -94,7 +94,6 @@ bulletJournalControllers.controller('loginController', ['$rootScope', '$scope', 
  
 bulletJournalControllers.controller('journalsController', ['$rootScope', '$scope', '$firebase', 'Authentication',
   function ($rootScope, $scope, $firebase, Authentication) {          
-      console.log('userId', $rootScope.userId);
       // Get journal list from Firbase
       var journalListRef = new Firebase('https://glaring-fire-6940.firebaseio.com/'+$rootScope.userId+'/journals');
       $scope.journals = $firebase(journalListRef);
@@ -110,7 +109,30 @@ bulletJournalControllers.controller('journalsController', ['$rootScope', '$scope
       
       // Remove journal from Firebase
       $scope.removeJournal = function(journal) {
-          $scope.journals.$remove(journal);
+          var retVal = confirm("Do you want to delete this journal?");
+          if( retVal === true ){
+             $scope.journals.$remove(journal);
+             return true;
+          }else{
+             return false;
+          }
+      };
+      
+      $scope.editJournalName = function(journal) {
+          document.getElementById('startEdit'+journal).style.display='none';
+          document.getElementById('editing'+journal).style.display='inline';
+      };
+      
+      $scope.updateJournal = function(newJournalName, journal) {
+          $scope.journals[journal].name = newJournalName;
+          $scope.journals.$save(journal);
+          document.getElementById('startEdit'+journal).style.display='inline';
+          document.getElementById('editing'+journal).style.display='none';
+      };
+      
+      $scope.cancelJournalEdit = function(journal) {
+          document.getElementById('startEdit'+journal).style.display='inline';
+          document.getElementById('editing'+journal).style.display='none';
       };
       
       $rootScope.journalList = true;
@@ -120,7 +142,7 @@ bulletJournalControllers.controller('journalsController', ['$rootScope', '$scope
 }]);
  
 bulletJournalControllers.controller('journalController', ['$rootScope', '$scope', '$stateParams', '$firebase', 'Authentication',
-  function ($rootScope, $scope, $stateParams, $firebase, Authentication) {      
+    function ($rootScope, $scope, $stateParams, $firebase, Authentication) {      
       $scope.journalId = $stateParams.journalId;
       
       var journalRef = new Firebase('https://glaring-fire-6940.firebaseio.com/'+$rootScope.userId+'/journals/'+$scope.journalId+'/items');
@@ -148,7 +170,30 @@ bulletJournalControllers.controller('journalController', ['$rootScope', '$scope'
       
       // Remove item from Firebase
       $scope.removeItem = function(item) {
-          $scope.items.$remove(item);
+          var retVal = confirm("Do you want to delete this journal?");
+          if( retVal === true ){
+             $scope.items.$remove(item);
+             return true;
+          }else{
+             return false;
+          }
+      };
+      
+      $scope.editItemText = function(item) {
+          document.getElementById('startEdit'+item).style.display='none';
+          document.getElementById('editing'+item).style.display='inline';
+      };
+      
+      $scope.updateItem = function(newItemText, item) {
+          $scope.items[item].text = newItemText;
+          $scope.items.$save(item);
+          document.getElementById('startEdit'+item).style.display='inline';
+          document.getElementById('editing'+item).style.display='none';
+      };
+      
+      $scope.cancelItemEdit = function(item) {
+          document.getElementById('startEdit'+item).style.display='inline';
+          document.getElementById('editing'+item).style.display='none';
       };
       
       $rootScope.journalListView = function() {
@@ -157,5 +202,6 @@ bulletJournalControllers.controller('journalController', ['$rootScope', '$scope'
       
       $scope.taskStatusUpdate = function(item) {
           $scope.items[item].completed = !$scope.items[item].completed;
+          console.log('checked', $scope.items[item].completed);
       };
 }]);

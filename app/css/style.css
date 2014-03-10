@@ -1,3 +1,102 @@
 li {
-	list-style: none;
+    list-style: none;
+}
+
+.editButton {
+    opacity: 0.0;
+}
+
+.card {
+    background-color:#fff;
+    margin: 5px 0 5px -40px;
+    padding:5px;
+    border-radius: 5px;
+}
+
+.card:hover .editButton {
+    opacity: 1.0;
+}
+
+.task {
+    position: relative;
+}
+
+.task span{
+    padding-left: 8px;
+}
+
+.task span:before {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 5px;
+    width: 12px;
+    height: 12px;
+    background-color: #000;
+    margin: -6px 0;
+    z-index: -100;
+}
+
+.task span:after {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: #FFF;
+    margin: -4px 2px;
+    z-index: -100;
+}
+
+.event {
+    position: relative;
+}
+
+.event span{
+    padding-left: 24px;
+}
+
+.event span:before {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    background-color: #000;
+    margin: -6px 0;
+}
+
+.event span:after {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: #FFF;
+    margin: -4px 2px;
+}
+
+.note {
+    position: relative;
+}
+
+.note span{
+    padding-left: 24px;
+}
+
+.note span:before {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: #000;
+    margin: -4px 4px;
 }

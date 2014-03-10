@@ -12,10 +12,26 @@
         </div>
     </form>
     <ul>
-        <li ng-repeat="journal in journals | orderByPriority | reverse | filter:journalsQuery" class="row" style="background-color:#fff; margin: 5px 0 5px -40px; padding:5px; border-radius: 5px">
-            <button ng-click="removeJournal(journal.$id)">X</button>
-            <a ui-sref=".journal({journalId: journal.$id})" ng-click="journalListView()">{{journal.name | uppercase}}</a><br>
-            <small style="float:right">{{journal.created | date}}</small>
+        <li ng-repeat="journal in journals | orderByPriority | orderBy:'-created' | filter:journalsQuery" class="row card">
+            <a id="startEdit{{journal.$id}}" class="lead" ui-sref=".journal({journalId: journal.$id})" ng-click="journalListView()">{{journal.name | uppercase}}</a>
+            <form id="editing{{journal.$id}}" style="display:none">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="newJournalName"
+                           placeholder="{{journal.name | uppercase}}" autofocus>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="updateJournal(newJournalName, journal.$id)">Add</button>
+                    </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="cancelJournalEdit(journal.$id)">Cancel</button>
+                    </span>
+                </div>
+            </form>
+            <br>
+            <div>
+                <button class="btn btn-default editButton" ng-click="removeJournal(journal.$id)">Delete</button>
+                <button class="btn btn-default editButton" ng-click="editJournalName(journal.$id)">Edit</button>
+                <small style="float:right" class="edit">{{journal.created | date}}</small>
+            </div>
         </li>
     </ul>
 </div>
